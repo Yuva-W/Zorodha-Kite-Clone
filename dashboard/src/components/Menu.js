@@ -1,98 +1,77 @@
 import React, { useState } from "react";
-
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const Menu = () => {
-  const [selectedMenu, setSelectedMenu] = useState(0);
-  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
+  const location = useLocation();
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
-  const handleMenuClick = (index) => {
-    setSelectedMenu(index);
-  };
-
-  const handleProfileClick = (index) => {
-    setIsProfileDropdownOpen(!isProfileDropdownOpen);
-  };
-
-  const menuClass = "menu";
-  const activeMenuClass = "menu selected";
+  const menus = [
+    { name: "Dashboard", path: "/" },
+    { name: "Orders", path: "/orders" },
+    { name: "Holdings", path: "/holdings" },
+    { name: "Positions", path: "/positions" },
+    { name: "Funds", path: "/funds" },
+    { name: "Apps", path: "/apps" },
+  ];
 
   return (
     <div className="menu-container">
-      <img src="logo.png" style={{ width: "50px" }} alt="logo" />
-      <div className="menus">
+      {/* Logo */}
+      <Link to="/" className="brand">
+        <img src="/logo.png" alt="TradePro logo" />
+        <span>TradePro</span>
+      </Link>
+
+      {/* Navigation */}
+      <nav className="menus">
         <ul>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/"
-              onClick={() => handleMenuClick(0)}
-            >
-              <p className={selectedMenu === 0 ? activeMenuClass : menuClass}>
-                Dashboard
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/orders"
-              onClick={() => handleMenuClick(1)}
-            >
-              <p className={selectedMenu === 1 ? activeMenuClass : menuClass}>
-                Orders
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/holdings"
-              onClick={() => handleMenuClick(2)}
-            >
-              <p className={selectedMenu === 2 ? activeMenuClass : menuClass}>
-                Holdings
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/positions"
-              onClick={() => handleMenuClick(3)}
-            >
-              <p className={selectedMenu === 3 ? activeMenuClass : menuClass}>
-                Positions
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="funds"
-              onClick={() => handleMenuClick(4)}
-            >
-              <p className={selectedMenu === 4 ? activeMenuClass : menuClass}>
-                Funds
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link
-              style={{ textDecoration: "none" }}
-              to="/apps"
-              onClick={() => handleMenuClick(6)}
-            >
-              <p className={selectedMenu === 6 ? activeMenuClass : menuClass}>
-                Apps
-              </p>
-            </Link>
-          </li>
+          {menus.map((menu) => {
+            const isActive =
+              menu.path === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(menu.path);
+
+            return (
+              <li key={menu.path}>
+                <Link
+                  to={menu.path}
+                  className={`menu-link ${isActive ? "active" : ""}`}
+                >
+                  {menu.name}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
-        <hr />
-        <div className="profile" onClick={handleProfileClick}>
+      </nav>
+
+      {/* Right side */}
+      <div className="menu-right">
+        <button className="notification-btn" title="Notifications">
+          🔔
+        </button>
+
+        <div
+          className="profile"
+          onClick={() => setIsProfileOpen(!isProfileOpen)}
+        >
           <div className="avatar">ZU</div>
-          <p className="username">USERID</p>
+
+          <div className="profile-info">
+            <span className="username">USERID</span>
+            <span className="profile-arrow">
+              {isProfileOpen ? "▲" : "▼"}
+            </span>
+          </div>
+
+          {isProfileOpen && (
+            <div className="profile-dropdown">
+              <Link to="/apps">Profile</Link>
+              <Link to="/funds">Funds</Link>
+              <Link to="/apps">Settings</Link>
+              <button>Logout</button>
+            </div>
+          )}
         </div>
       </div>
     </div>

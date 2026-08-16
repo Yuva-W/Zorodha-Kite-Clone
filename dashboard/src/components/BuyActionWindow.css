@@ -1,221 +1,393 @@
-.container {
-    --radius: 4px;
-    width: 40%;
-    height: 63%;
-    background: rgb(245, 245, 245);
-    position: absolute;
-    bottom: 0;
-    left: 35%;
-    cursor: move;
-    box-sizing: border-box;
-    z-index: 100;
-    border-radius: var(--radius);
-    border: 1px solid rgb(238, 238, 238);
-  }
-  
-  .dragging {
+/* =========================================
+   BUY / SELL ORDER MODAL
+========================================= */
+
+/* Dark transparent background */
+
+#buy-window {
+  position: fixed;
+
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  width: 390px;
+
+  background: #ffffff;
+
+  border: 1px solid #e5e7eb;
+
+  border-radius: 16px;
+
+  padding: 24px;
+
+  box-sizing: border-box;
+
+  z-index: 9999;
+
+  box-shadow:
+    0 25px 60px rgba(15, 23, 42, 0.18),
+    0 5px 15px rgba(15, 23, 42, 0.08);
+
+  animation: orderWindowOpen 0.18s ease-out;
+}
+
+
+/* =========================================
+   MODAL ANIMATION
+========================================= */
+
+@keyframes orderWindowOpen {
+  from {
     opacity: 0;
+    transform: translate(-50%, -48%) scale(0.97);
   }
-  
-  .container .header {
-    width: 100%;
-    background: #4184f3;
-    box-sizing: border-box;
-    padding: 16px;
-    border-top-left-radius: var(--radius);
-    border-top-right-radius: var(--radius);
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
   }
-  
-  .header h3 {
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 6px;
+}
+
+
+/* =========================================
+   HEADER
+========================================= */
+
+.order-window-header {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.order-window-label {
+  display: block;
+
+  margin-bottom: 5px;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+  font-weight: 600;
+
+  letter-spacing: 0.7px;
+}
+
+.order-window-header h2 {
+  margin: 0;
+
+  color: #1e293b;
+
+  font-size: 20px;
+  font-weight: 600;
+}
+
+
+/* =========================================
+   CLOSE BUTTON
+========================================= */
+
+.order-close {
+  width: 30px;
+  height: 30px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: #f8fafc;
+
+  color: #64748b;
+
+  font-size: 20px;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.order-close:hover {
+  background: #f1f5f9;
+
+  color: #1e293b;
+}
+
+
+/* =========================================
+   ORDER FORM
+========================================= */
+
+.regular-order {
+  padding: 24px 0;
+}
+
+
+/* =========================================
+   INPUT CONTAINER
+========================================= */
+
+.inputs {
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 14px;
+}
+
+
+/* =========================================
+   FIELDSET
+========================================= */
+
+.inputs fieldset {
+  min-width: 0;
+
+  margin: 0;
+
+  padding: 0;
+
+  border: none;
+}
+
+
+/* =========================================
+   LABEL
+========================================= */
+
+.inputs legend {
+  display: block;
+
+  width: auto;
+
+  margin-bottom: 7px;
+
+  padding: 0;
+
+  color: #64748b;
+
+  font-size: 10px;
+  font-weight: 500;
+}
+
+
+/* =========================================
+   INPUT
+========================================= */
+
+.inputs input {
+  width: 100%;
+
+  height: 42px;
+
+  box-sizing: border-box;
+
+  padding: 0 12px;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 8px;
+
+  outline: none;
+
+  background: #fafbfc;
+
+  color: #1e293b;
+
+  font-size: 12px;
+
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease,
+    background 0.15s ease;
+}
+
+.inputs input:hover {
+  background: #ffffff;
+
+  border-color: #cbd5e1;
+}
+
+.inputs input:focus {
+  background: #ffffff;
+
+  border-color: #60a5fa;
+
+  box-shadow: 0 0 0 3px #eff6ff;
+}
+
+
+/* Remove number arrows */
+
+.inputs input::-webkit-outer-spin-button,
+.inputs input::-webkit-inner-spin-button {
+  margin: 0;
+
+  -webkit-appearance: none;
+}
+
+.inputs input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.buttons {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding-top: 18px;
+
+  border-top: 1px solid #f1f5f9;
+}
+
+.buttons > span {
+  max-width: 145px;
+
+  color: #94a3b8;
+
+  font-size: 9px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   BUTTON GROUP
+========================================= */
+
+.buttons > div {
+  display: flex;
+
+  gap: 8px;
+
+  flex-shrink: 0;
+}
+
+
+/* =========================================
+   BUTTON BASE
+========================================= */
+
+.btn {
+  min-width: 70px;
+
+  height: 35px;
+
+  padding: 0 14px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+
+/* =========================================
+   BUY
+========================================= */
+
+.btn-blue {
+  background: #2563eb;
+
+  color: #ffffff;
+}
+
+.btn-blue:hover {
+  background: #1d4ed8;
+}
+
+
+/* =========================================
+   SELL
+========================================= */
+
+.btn-red {
+  background: #ef4444;
+
+  color: #ffffff;
+}
+
+.btn-red:hover {
+  background: #dc2626;
+}
+
+
+/* =========================================
+   CANCEL
+========================================= */
+
+.btn-grey {
+  background: #f1f5f9;
+
+  color: #475569;
+}
+
+.btn-grey:hover {
+  background: #e2e8f0;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 500px) {
+
+  #buy-window {
+    width: calc(100% - 30px);
+
+    padding: 20px;
   }
-  
-  .header h3 span {
-    font-size: 0.6rem;
-  }
-  
-  .market-options {
-    font-weight: 300;
-    color: #fff;
-    font-size: 0.8rem;
-  }
-  
-  .market-options label,
-  .order-validity label input,
-  .sub-order-type label,
-  .sub-order-type label input,
-  .stop-loss-type label,
-  .stop-loss-type label input {
-    margin-right: 6px;
-    cursor: pointer;
-  }
-  
-  .market-options input[type="radio"] {
-    border: 1px solid #ddd;
-    cursor: pointer;
-    padding: 2px;
-    margin-right: 6px;
-  }
-  
-  .tab {
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #f9f9f9;
-    border-bottom: 2px solid rgba(180, 180, 180, 0.6);
-  }
-  
-  .tab button {
-    border: none;
-    padding: 14px 16px;
-    background: transparent;
-    color: #4184f3;
-    font-weight: 400;
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
-  
-  .regular-order {
-    padding: 16px 26px;
-    background-color: #fff;
-    padding-bottom: 30px;
-  }
-  
-  .regular-order label {
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
-  
-  .order-validity {
-    width: 70%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .order-validity label span {
-    color: rgb(190, 190, 190);
-  }
-  
-  .inputs {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 16px;
-    margin-bottom: 16px;
-  }
-  
-  .inputs fieldset {
-    max-width: 120px;
-    box-sizing: border-box;
-    border: 0.7px solid #ddd;
-    margin-right: 8px;
-  }
-  
-  .inputs fieldset legend {
-    margin-left: 10px;
-    font-size: 0.8rem;
-    padding: 0 4px;
-  }
-  
-  .inputs fieldset:last-of-type legend {
-    color: #ddd;
-  }
-  
-  .inputs fieldset input {
-    border: none;
-    margin-right: 8px;
-    max-width: 130px;
-    min-height: 35px;
-    padding: 0 12px;
-    box-sizing: border-box;
-    font-size: 1.1rem;
-  }
-  
-  .options {
-    width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .options span {
-    color: #4184f3;
-    font-size: 0.8rem;
-    cursor: pointer;
-  }
-  
+
   .buttons {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .buttons > span {
+    max-width: 100%;
+  }
+
+  .buttons > div {
     width: 100%;
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    top: 10%;
-    padding: 0 20px;
   }
-  
-  .buttons span {
-    font-size: 0.8rem;
-  }
-  
+
   .btn {
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 2px;
-    color: #fff;
-    margin-right: 2px;
-    margin-left: 2px;
+    flex: 1;
   }
-  
-  .btn-grey {
-    background: #d4d4d4;
-    color: #666666;
-  }
-  
-  .btn-blue {
-    background: #4184f3;
-  }
-  
-  /* sudo selectors */
-  .tab button::after {
-    content: "";
-    width: 100%;
-    height: 3px;
-    display: none;
-    margin-top: 10px;
-    background-color: #4184f3;
-  }
-  
-  .inputs fieldset:focus {
-    outline: none;
-    border: 0.7px solid rgb(49, 49, 49);
-    border-radius: 2px;
-  }
-  
-  .inputs fieldset input:focus {
-    outline: none;
-  }
-  
-  .inputs fieldset input:focus {
-    outline: none;
-  }
-  
-  .inputs fieldset input:disabled {
-    cursor: not-allowed;
-    background-color: transparent;
-  }
-  
-  .btn-blue:hover {
-    background: #74a7fa;
-  }
-  
-  .btn-grey:hover {
-    background: #9b9b9b;
-    color: #fff;
-  }
-  
+}
