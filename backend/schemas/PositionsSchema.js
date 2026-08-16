@@ -1,14 +1,25 @@
-const {Schema} = require("mongoose");
+const { Schema } = require("mongoose");
 
-const PositionsSchema = new Schema({
-    product: String,
-    name: String,
-    qty: Number,
-    avg: Number,
-    price: Number,
-    net: String,
-    day: String,
-    isLoss: Boolean,
-});
+const PositionsSchema = new Schema(
+    {
+        userId: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
+            required: true
+        },
 
-module.exports = {PositionsSchema};
+        product: String,
+        name: String,
+        qty: Number,
+        avg: Number,
+        price: Number,
+        net: String,
+        day: String,
+        isLoss: Boolean,
+    },
+    {
+        timestamps: true
+    }
+);
+
+module.exports = { PositionsSchema };
