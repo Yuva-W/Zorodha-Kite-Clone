@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 const Positions = () => {
   const [positions, setPositions] = useState([]);
@@ -11,23 +11,18 @@ const Positions = () => {
   ========================= */
 
   const fetchPositions = async () => {
-    try {
-      setLoading(true);
-      setError("");
-
-      const res = await axios.get(
-        "http://localhost:3002/allPositions"
-      );
-
-      setPositions(res.data);
-      setLoading(false);
-    } catch (err) {
-      console.error("Error fetching positions:", err);
-
-      setError("Unable to load positions");
-      setLoading(false);
-    }
-  };
+  try {
+    setLoading(true);
+    setError("");
+    const res = await api.get("/allPositions");
+    setPositions(res.data);
+    setLoading(false);
+  } catch (err) {
+    console.error("Error fetching positions:", err);
+    setError("Unable to load positions");
+    setLoading(false);
+  }
+};
 
   useEffect(() => {
     fetchPositions();

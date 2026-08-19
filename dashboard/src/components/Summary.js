@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 
 const Summary = () => {
@@ -23,9 +23,9 @@ const Summary = () => {
 
       const [fundsRes, holdingsRes, ordersRes] =
         await Promise.all([
-          axios.get("http://localhost:3002/funds"),
-          axios.get("http://localhost:3002/allholdings"),
-          axios.get("http://localhost:3002/allOrders"),
+          api.get("/funds"),
+          api.get("/allholdings"),
+          api.get("/allOrders"),
         ]);
 
       setFunds(fundsRes.data);

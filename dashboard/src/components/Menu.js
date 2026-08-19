@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "../auth/AuthContext";
 
 const Menu = () => {
   const location = useLocation();
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+
+  const { logout } = useAuth();
 
   const menus = [
     { name: "Dashboard", path: "/" },
@@ -16,6 +19,7 @@ const Menu = () => {
 
   return (
     <div className="menu-container">
+
       {/* Logo */}
       <Link to="/" className="brand">
         <img src="/logo.png" alt="TradePro logo" />
@@ -35,7 +39,9 @@ const Menu = () => {
               <li key={menu.path}>
                 <Link
                   to={menu.path}
-                  className={`menu-link ${isActive ? "active" : ""}`}
+                  className={`menu-link ${
+                    isActive ? "active" : ""
+                  }`}
                 >
                   {menu.name}
                 </Link>
@@ -47,18 +53,30 @@ const Menu = () => {
 
       {/* Right side */}
       <div className="menu-right">
-        <button className="notification-btn" title="Notifications">
+
+        <button
+          className="notification-btn"
+          title="Notifications"
+        >
           🔔
         </button>
 
         <div
           className="profile"
-          onClick={() => setIsProfileOpen(!isProfileOpen)}
+          onClick={() =>
+            setIsProfileOpen(!isProfileOpen)
+          }
         >
-          <div className="avatar">ZU</div>
+
+          <div className="avatar">
+            ZU
+          </div>
 
           <div className="profile-info">
-            <span className="username">USERID</span>
+            <span className="username">
+              USERID
+            </span>
+
             <span className="profile-arrow">
               {isProfileOpen ? "▲" : "▼"}
             </span>
@@ -66,14 +84,34 @@ const Menu = () => {
 
           {isProfileOpen && (
             <div className="profile-dropdown">
-              <Link to="/apps">Profile</Link>
-              <Link to="/funds">Funds</Link>
-              <Link to="/apps">Settings</Link>
-              <button>Logout</button>
+
+              <Link to="/apps">
+                Profile
+              </Link>
+
+              <Link to="/funds">
+                Funds
+              </Link>
+
+              <Link to="/apps">
+                Settings
+              </Link>
+
+              <button
+                onClick={() => {
+                  logout();
+                  setIsProfileOpen(false);
+                }}
+              >
+                Logout
+              </button>
+
             </div>
           )}
+
         </div>
       </div>
+
     </div>
   );
 };

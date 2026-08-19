@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 import GeneralContext from "./GeneralContext";
 
@@ -14,29 +14,29 @@ const BuyActionWindow = ({ uid, mode }) => {
   const isBuy = mode === "BUY";
 
   const handleOrderClick = async () => {
-    if (stockQuantity <= 0 || stockPrice <= 0) {
-      alert("Quantity and price must be greater than 0");
-      return;
-    }
+  if (stockQuantity <= 0 || stockPrice <= 0) {
+    alert("Quantity and price must be greater than 0");
+    return;
+  }
 
-    try {
-      await axios.post("http://localhost:3002/newOrder", {
-        name: uid,
-        qty: Number(stockQuantity),
-        price: Number(stockPrice),
-        mode: mode,
-      });
+  try {
+    await api.post("/newOrder", {
+      name: uid,
+      qty: Number(stockQuantity),
+      price: Number(stockPrice),
+      mode: mode,
+    });
 
-      alert(`${mode} order placed successfully`);
+    alert(`${mode} order placed successfully`);
 
-      generalContext.closeBuyWindow();
+    generalContext.closeBuyWindow();
 
-    } catch (err) {
-      console.error("Order error:", err);
+  } catch (err) {
+    console.error("Order error:", err);
 
-      alert("Failed to place order");
-    }
-  };
+    alert("Failed to place order");
+  }
+};
 
   const handleCancelClick = () => {
     generalContext.closeBuyWindow();

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../api";
 import { useNavigate } from "react-router-dom";
 
 const Orders = () => {
@@ -14,8 +14,7 @@ const Orders = () => {
     setLoading(true);
     setError("");
 
-    axios
-      .get("http://localhost:3002/allOrders")
+    api.get("/allOrders")
       .then((res) => {
         setOrders(res.data);
         setLoading(false);
@@ -28,8 +27,8 @@ const Orders = () => {
   };
 
   useEffect(() => {
-    fetchOrders();
-  }, []);
+  fetchOrders();
+}, []);
 
   // Order calculations
   const totalOrders = orders.length;

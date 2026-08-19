@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import axios from "axios";
+import api from "../api";
 
 const COLORS = [
   "#2563eb",
@@ -28,7 +28,7 @@ const Holdings = () => {
       setLoading(true);
       setError("");
 
-      const res = await axios.get(
+      const res = await api.get(
         "http://localhost:3002/allholdings"
       );
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import {
   Container,
@@ -12,39 +12,43 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-const SignUp = () => {
-  const navigate = useNavigate();
-
-  const [name, setName] = useState("");
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSignup = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       setLoading(true);
       setError("");
 
-      await axios.post("http://localhost:3002/auth/signup", {
-        name,
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "http://localhost:3002/auth/login",
+        {
+          email,
+          password,
+        }
+      );
 
-      alert("Account created successfully");
+      localStorage.setItem("token", res.data.token);
 
-      navigate("/login");
+      // Dashboard is a separate app on a different port,
+      // so localStorage is NOT shared (origins differ).
+      // Pass the token through the URL once; the dashboard
+      // stores it in its own localStorage and redirects.
+      window.location.href =
+        `http://localhost:3001/login?token=${res.data.token}`;
 
     } catch (err) {
-      console.error("Signup error:", err);
+      console.error("Login error:", err);
 
       setError(
         err.response?.data?.message ||
-        "Unable to create account"
+        "Invalid email or password"
       );
     } finally {
       setLoading(false);
@@ -60,25 +64,14 @@ const SignUp = () => {
         <Col md={12}>
           <Card className="auth-card">
             <Card.Body className="p-5">
-              <h1 className="text-center mb-1">Create Account</h1>
+              <h1 className="text-center mb-1">Welcome Back</h1>
 
               <p className="text-center text-muted mb-4">
-                Create your TradePro account
+                Login to your TradePro account
               </p>
 
-              <Form onSubmit={handleSignup}>
-                <Form.Group className="mb-3" controlId="signupName">
-                  <Form.Label>Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter your name"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="signupEmail">
+              <Form onSubmit={handleLogin}>
+                <Form.Group className="mb-3" controlId="loginEmail">
                   <Form.Label>Email</Form.Label>
                   <Form.Control
                     type="email"
@@ -89,14 +82,13 @@ const SignUp = () => {
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="signupPassword">
+                <Form.Group className="mb-3" controlId="loginPassword">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
-                    placeholder="Create a password"
+                    placeholder="Enter your password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    minLength="6"
                     required
                   />
                 </Form.Group>
@@ -123,18 +115,18 @@ const SignUp = () => {
                         aria-hidden="true"
                         className="me-2"
                       />
-                      Creating account...
+                      Logging in...
                     </>
                   ) : (
-                    "Create Account"
+                    "Login"
                   )}
                 </Button>
               </Form>
 
               <p className="text-center mt-4 mb-0">
-                Already have an account?{" "}
-                <Link to="/login">
-                  Login
+                Don't have an account?{" "}
+                <Link to="/signup">
+                  Sign Up
                 </Link>
               </p>
             </Card.Body>
@@ -145,4 +137,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;
